@@ -2,6 +2,8 @@ syntax = "proto3";
 
 service InventoryService {
     rpc SearchAllProducts(Empty) returns (ProductsResponse) {}
+    rpc SearchProductByID(Payload) returns (ProductResponse) {}
+    rpc AddProduct(NewProduct) returns (ProductResponse) {}
 }
 
 message Empty{}
@@ -17,4 +19,16 @@ message ProductResponse {
 
 message ProductsResponse {
     repeated ProductResponse products = 1;
+}
+
+message Payload {
+    int32 id = 1;
+}
+
+message NewProduct {
+    string name = 1;
+    int32 quantity = 2;
+    float price = 3;
+    string photo = 4;
+    string author = 5;
 }

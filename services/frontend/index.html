@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -22,7 +22,70 @@
             <p class="has-text-centered">Uma simples livraria utilizando microservices</p>
         </div>
         <section class="container">
-            <div class="columns books"></div>
+            <!-- Search by ID Section -->
+            <div class="field has-addons has-addons-centered">
+                <div class="control">
+                    <input class="input" type="text" id="searchByID" placeholder="Digite o ID do livro" aria-label="Digite o ID do livro para buscar" />
+                </div>
+                <div class="control">
+                    <button class="button is-info" onclick="searchByID()" aria-label="Buscar livro pelo ID">Buscar</button>
+                </div>
+                <div class="control">
+                    <button class="button is-warning" onclick="insertAllBooks()" aria-label="Limpar busca e mostrar todos os livros">Limpar Busca</button>
+                </div>
+            </div>
+
+            <!-- Toggle Button for Add Book Form -->
+            <div class="has-text-centered" style="margin: 20px 0;">
+                <button class="button is-primary" id="toggleFormButton" aria-expanded="false" aria-controls="addBookForm">
+                    Adicionar Novo Livro
+                </button>
+            </div>
+
+            <!-- Add Book Form (Initially Hidden) -->
+            <form id="addBookForm" style="display: none;" aria-labelledby="addBookFormTitle">
+                <div class="box">
+                    <h2 class="title is-4 has-text-centered" id="addBookFormTitle">Adicionar Novo Livro</h2>
+                    <div class="field">
+                        <label class="label" for="addBookName">Nome do Livro</label>
+                        <div class="control">
+                            <input class="input" type="text" id="addBookName" name="name" placeholder="Nome do Livro" required aria-required="true" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="addBookAuthor">Autor</label>
+                        <div class="control">
+                            <input class="input" type="text" id="addBookAuthor" name="author" placeholder="Autor" required aria-required="true" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="addBookQuantity">Quantidade</label>
+                        <div class="control">
+                            <input class="input" type="number" id="addBookQuantity" name="quantity" placeholder="Quantidade" required aria-required="true" min="0" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="addBookPrice">Preço</label>
+                        <div class="control">
+                            <input class="input" type="number" step="0.01" id="addBookPrice" name="price" placeholder="Preço" required aria-required="true" min="0" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="addBookPhoto">URL da Foto</label>
+                        <div class="control">
+                            <input class="input" type="url" id="addBookPhoto" name="photo" placeholder="URL da Foto" required aria-required="true" />
+                        </div>
+                    </div>
+                    <div class="field has-text-centered">
+                        <div class="control">
+                            <button class="button is-success" type="submit" onclick="addBook()" aria-label="Adicionar livro à livraria">Adicionar Livro</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Books List -->
+            <div class="columns is-multiline books"></div>
         </section>
 
         <footer class="footer has-text-centered">Feito com ❤️ na UFMG</footer>
@@ -32,5 +95,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/js/OverlayScrollbars.min.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="index.js"></script>
+
+        <script>
+            // Toggle Form Visibility
+            document.getElementById('toggleFormButton').addEventListener('click', function () {
+                const form = document.getElementById('addBookForm');
+                const isExpanded = form.style.display === 'none';
+                form.style.display = isExpanded ? 'block' : 'none';
+                this.setAttribute('aria-expanded', isExpanded);
+                this.textContent = isExpanded ? 'Ocultar Formulário' : 'Adicionar Novo Livro';
+            });
+        </script>
     </body>
 </html>

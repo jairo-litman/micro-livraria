@@ -13,13 +13,37 @@ const inventoryProto = grpc.loadPackageDefinition(packageDefinition);
 
 const server = new grpc.Server();
 
+const searchAllProducts = (_, callback) => {
+    callback(null, {
+        products: products,
+    });
+}
+
+const SearchProductByID = (payload, callback) => {
+    const product = products.find((product) => product.id === payload.request.id);
+    if (!product) {
+        return callback({
+            code: grpc.status.NOT_FOUND,
+            message: 'Product not found',
+        });
+    }
+
+    callback(null, product);
+}
+
+const AddProduct = (payload, callback) => {
+    const product = payload.request;
+    product.id = products.length + 1;
+    products.push(product);
+
+    callback(null, product);
+}
+
 // implementa os métodos do InventoryService
 server.addService(inventoryProto.InventoryService.service, {
-    searchAllProducts: (_, callback) => {
-        callback(null, {
-            products: products,
-        });
-    },
+    searchAllProducts: searchAllProducts,
+    SearchProductByID: SearchProductByID,
+    AddProduct: AddProduct,
 });
 
 server.bindAsync('127.0.0.1:3002', grpc.ServerCredentials.createInsecure(), () => {
